@@ -350,27 +350,32 @@ function returnAddressZero(array, noun, verb) {
   return loopOpcodes(resetMemory(array, noun, verb));
 }
 
-function testNounVerbs(array, x, y) {
+function testNounVerbs(noun, verb) {
   console.log("starting looking...");
-  while (y < 100) {
-    while (x < 100) {
+  while (verb < 100) {
+    while (noun < 100) {
       let newArray = new InitialArray();
       // console.log([x, y]);
-      let result = returnAddressZero(newArray.array, x, y);
+      let result = returnAddressZero(newArray.array, noun, verb);
       // console.log(result);
       if (result === 19690720) {
-        return console.log("solution :", [x, y]);
+        return console.log(
+          "matching noun and verbs :",
+          [noun, verb],
+          "so solution is :",
+          noun * 100 + verb
+        );
       } else {
-        x++;
+        noun++;
       }
     }
-    y++;
-    x = 0;
+    verb++;
+    noun = 0;
   }
   console.log("cannot find");
 }
 
-console.log(returnAddressZero(input, 71, 95));
+testNounVerbs(0, 0);
 
 module.exports = {
   resetMemory: resetMemory,
