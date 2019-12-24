@@ -2,28 +2,43 @@
 // CABLE1: R8,U5,L5,D3
 // CABLE2: U7,R6,D4,L4
 
-function createCoordinate(element) {
-  let position = [0, 0];
+function createMovement(element) {
+  let movement = [0, 0];
 
-  if (element[0].charAt(0) == "R")
-    position[0] = position[0] + parseInt(element[0].charAt(1));
-  // if (element[0].charAt(0) == "L")
-  //   position[0] = position[0] - parseInt(element[0].charAt(1));
-  // if (element[0].charAt(0) == "U")
-  //   position[1] = position[1] + parseInt(element[0].charAt(1));
-  // if (element[0].charAt(0) == "D")
-  //   position[1] = position[1] - parseInt(element[0].charAt(1));
+  if (element.charAt(0) == "R")
+    movement[0] = movement[0] + parseInt(element.charAt(1));
+  if (element.charAt(0) == "L")
+    movement[0] = movement[0] - parseInt(element.charAt(1));
+  if (element.charAt(0) == "U")
+    movement[1] = movement[1] + parseInt(element.charAt(1));
+  if (element.charAt(0) == "D")
+    movement[1] = movement[1] - parseInt(element.charAt(1));
 
-  return position;
+  return movement;
 }
 
-function createAllCoordinates(array) {
-  let positions = [];
+function createAllMovements(array) {
+  let movements = [];
+
   array.forEach(element => {
-    positions.push(createCoordinate(element));
+    movements.push(createMovement(element));
   });
-  return console.log(positions);
+
+  return movements;
 }
 
-// createAllCoordinates(["U2", "R4"]);
-console.log(createCoordinate("R5"));
+function getAllCoordinates(array) {
+  let movements = createAllMovements(array);
+  let length = movements.length;
+  let i = 0;
+
+  while (i + 1 < length) {
+    movements[i + 1][0] = movements[i + 1][0] + movements[i][0];
+    movements[i + 1][1] = movements[i + 1][1] + movements[i][1];
+    i++;
+  }
+
+  return movements;
+}
+
+console.log(getAllCoordinates(["U2", "R4", "D1"]));
