@@ -1,44 +1,67 @@
-// CABLE TEST: R1
-// CABLE1: R8,U5,L5,D3
-// CABLE2: U7,R6,D4,L4
+function determineMovements(element) {
+  let initial = [];
+  let i = 0;
+  let count = parseInt(element.charAt(1));
+  let direction = element.charAt(0);
+  let step;
 
-function createMovement(element) {
-  let movement = [0, 0];
+  if (direction === "U") step = [0, 1];
+  if (direction === "R") step = [1, 0];
+  if (direction === "D") step = [0, -1];
+  if (direction === "L") step = [-1, 0];
 
-  if (element.charAt(0) == "R")
-    movement[0] = movement[0] + parseInt(element.charAt(1));
-  if (element.charAt(0) == "L")
-    movement[0] = movement[0] - parseInt(element.charAt(1));
-  if (element.charAt(0) == "U")
-    movement[1] = movement[1] + parseInt(element.charAt(1));
-  if (element.charAt(0) == "D")
-    movement[1] = movement[1] - parseInt(element.charAt(1));
-
-  return movement;
+  while (i < count) {
+    initial.push(step);
+    i++;
+  }
+  return initial;
 }
 
-function createAllMovements(array) {
+// determineMovements("R3");
+
+function getAllMovements(array) {
   let movements = [];
 
   array.forEach(element => {
-    movements.push(createMovement(element));
+    determineMovements(element).forEach(position => {
+      movements.push(position);
+    });
   });
 
   return movements;
 }
 
-function getAllCoordinates(array) {
-  let movements = createAllMovements(array);
+function getCoordinates(array) {
+  let movements = getAllMovements(array);
+  let coordinates = [];
+  console.log("movement:", movements);
+
   let length = movements.length;
+
+  let initialStep = { x: 0, y: 0 };
+  initialStep.x = movements[0][0];
+  initialStep.y = movements[0][1];
+  coordinates.push(initialStep);
+  let step = [];
   let i = 0;
 
   while (i + 1 < length) {
-    movements[i + 1][0] = movements[i + 1][0] + movements[i][0];
-    movements[i + 1][1] = movements[i + 1][1] + movements[i][1];
+    step.x = movements[i + 1][0] + coordinates[i].x;
+    step.y = movements[i + 1][1] + coordinates[i].y;
+    newStep = { ...step };
+    coordinates.push(newStep);
     i++;
   }
 
-  return movements;
+  return coordinates;
 }
 
-console.log(getAllCoordinates(["U2", "R4", "D1"]));
+console.log(getCoordinates(["U1", "R3"]));
+
+//       [ [ 0, 1 ], [ 1, 0 ], [ 1, 0 ], [ 1, 0 ] ]
+//       [ [ 0, 1 ], [ 1, 1 ], [ 2, 1 ], [ 3, 1 ] ]
+
+//       [ [ 0, 1 ] ]
+//       [ [ 0, 1 ], [ 1, 1 ]
+//       [ [ 0, 1 ], [ 1, 1 ], [ 2, 1 ]
+//       [ [ 0, 1 ], [ 1, 1 ], [ 2, 1 ], [ 3, 1 ] ]
