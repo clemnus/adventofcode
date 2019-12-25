@@ -34,21 +34,20 @@ function getAllMovements(array) {
 function getCoordinates(array) {
   let movements = getAllMovements(array);
   let coordinates = [];
-  console.log("movement:", movements);
 
   let length = movements.length;
 
-  let initialStep = { x: 0, y: 0 };
-  initialStep.x = movements[0][0];
-  initialStep.y = movements[0][1];
+  let initialStep = [0, 0];
+  initialStep[0] = movements[0][0];
+  initialStep[1] = movements[0][1];
   coordinates.push(initialStep);
   let step = [];
   let i = 0;
 
   while (i + 1 < length) {
-    step.x = movements[i + 1][0] + coordinates[i].x;
-    step.y = movements[i + 1][1] + coordinates[i].y;
-    newStep = { ...step };
+    step[0] = movements[i + 1][0] + coordinates[i][0];
+    step[1] = movements[i + 1][1] + coordinates[i][1];
+    newStep = [...step];
     coordinates.push(newStep);
     i++;
   }
@@ -56,12 +55,38 @@ function getCoordinates(array) {
   return coordinates;
 }
 
-console.log(getCoordinates(["U1", "R3"]));
+let wire1 = getCoordinates(["R8", "U5", "L5", "D3"]);
+let wire2 = getCoordinates(["U7", "R6", "D4", "L4"]);
 
-//       [ [ 0, 1 ], [ 1, 0 ], [ 1, 0 ], [ 1, 0 ] ]
-//       [ [ 0, 1 ], [ 1, 1 ], [ 2, 1 ], [ 3, 1 ] ]
+// console.log("wire1:", wire1);
+// console.log("wire2:", wire2);
 
-//       [ [ 0, 1 ] ]
-//       [ [ 0, 1 ], [ 1, 1 ]
-//       [ [ 0, 1 ], [ 1, 1 ], [ 2, 1 ]
-//       [ [ 0, 1 ], [ 1, 1 ], [ 2, 1 ], [ 3, 1 ] ]
+function stringifyWire(wire) {
+  let stringWire = [];
+  wire.forEach(element => {
+    stringWire.push(JSON.stringify(element));
+  });
+  return stringWire;
+}
+
+let stringWire1 = stringifyWire(wire1);
+let stringWire2 = stringifyWire(wire2);
+
+function findWireCross(wire1, wire2) {
+  let lenghtWire2 = wire2.length;
+  let lenghtWire1 = wire1.length;
+  let y = 0;
+  let x = 0;
+  let crosses = [];
+  while (x < lenghtWire1) {
+    while (y < lenghtWire2) {
+      if (wire1[x] === wire2[y]) crosses.push(wire1[x]);
+      y++;
+    }
+    x++;
+    y = 0;
+  }
+  return crosses;
+}
+
+console.log(findWireCross(stringWire1, stringWire2));
