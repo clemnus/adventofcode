@@ -1,7 +1,16 @@
+const fs = require("fs");
+
+const input1 = fs
+  .readFileSync("./input1.txt", { encoding: "UTF-8" })
+  .split(",");
+const input2 = fs
+  .readFileSync("./input2.txt", { encoding: "UTF-8" })
+  .split(",");
+
 function determineMovements(element) {
   let initial = [];
   let i = 0;
-  let count = parseInt(element.charAt(1));
+  let count = parseInt(element.substring(1));
   let direction = element.charAt(0);
   let step;
 
@@ -34,6 +43,7 @@ function getAllMovements(array) {
 function getCoordinates(array) {
   let movements = getAllMovements(array);
   let coordinates = [];
+  console.log("inside getCoordinates function...");
 
   let length = movements.length;
 
@@ -55,14 +65,15 @@ function getCoordinates(array) {
   return coordinates;
 }
 
-let wire1 = getCoordinates(["R8", "U5", "L5", "D3"]);
-let wire2 = getCoordinates(["U7", "R6", "D4", "L4"]);
+let wire1 = getCoordinates(input1);
+let wire2 = getCoordinates(input2);
 
 // console.log("wire1:", wire1);
 // console.log("wire2:", wire2);
 
 function stringifyWire(wire) {
   let stringWire = [];
+  console.log("inside stringify function...");
   wire.forEach(element => {
     stringWire.push(JSON.stringify(element));
   });
@@ -73,6 +84,7 @@ let stringWire1 = stringifyWire(wire1);
 let stringWire2 = stringifyWire(wire2);
 
 function findWireCross(wire1, wire2) {
+  console.log("inside findWireCross function...");
   let lenghtWire2 = wire2.length;
   let lenghtWire1 = wire1.length;
   let y = 0;
@@ -89,4 +101,18 @@ function findWireCross(wire1, wire2) {
   return crosses;
 }
 
-console.log(findWireCross(stringWire1, stringWire2));
+function getShortestRoute(crosses) {
+  console.log("inside getShortesRoute function...");
+  let routes = [];
+  crosses.forEach(element => {
+    routes.push(
+      Math.abs(JSON.parse(element)[0]) + Math.abs(JSON.parse(element)[1])
+    );
+  });
+  console.log("returning routes...");
+
+  return Math.min(...routes);
+}
+
+let allCrosses = findWireCross(stringWire1, stringWire2);
+console.log(getShortestRoute(allCrosses));
