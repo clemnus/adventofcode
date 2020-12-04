@@ -1,17 +1,17 @@
 const fs = require("fs");
 
 // modifying input data to the right format
-const input1 = fs
+const database = fs
     .readFileSync("./input.txt", { encoding: "UTF-8" })
-    .split("\n");
-const input2 = input1.map((str) => str.split(/-| /));
-const input3 = input2.map((array) => array.map((str) => str.replace(":", "")));
-const database = input3.map((array) => {
-    let newArray = [...array];
-    newArray[0] = parseInt(newArray[0]);
-    newArray[1] = parseInt(newArray[1]);
-    return newArray;
-});
+    .split("\n")
+    .map((str) => str.split(/-| /))
+    .map((array) => array.map((str) => str.replace(":", "")))
+    .map((array) => {
+        let newArray = [...array];
+        newArray[0] = parseInt(newArray[0]);
+        newArray[1] = parseInt(newArray[1]);
+        return newArray;
+    });
 
 console.log(runAllPasswords(database));
 
