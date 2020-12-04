@@ -13,8 +13,6 @@ const database = input3.map((array) => {
     return newArray;
 });
 
-let password = [1, 3, "a", "abade"];
-
 let checkPassword = ([...password]) => {
     let loc1 = password[0] - 1;
     let loc2 = password[1] - 1;
