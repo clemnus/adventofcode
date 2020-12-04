@@ -1,20 +1,19 @@
 const fs = require("fs");
 
-// modifying input data to the right format
-const database = readFileLines("./input.txt")
-    .map((line) => line.split(/-| /))
-    .map((password) => password.flatMap((str) => str.replace(":", "")))
-    .map((array) => ({
-        loc1: parseInt(array[0]) - 1,
-        loc2: parseInt(array[1]) - 1,
-        key: array[2],
-        text: array[3],
-    }));
-
-console.log(countValidPasswords(database));
+const passwords = readFileLines("./input.txt").map(parsePassword);
+console.log(countValidPasswords(passwords));
 
 function readFileLines(path) {
     return fs.readFileSync(path, { encoding: "UTF-8" }).split("\n");
+}
+function parsePassword(line) {
+    const [, loc1, loc2, key, text] = line.match(/(\d+)-(\d+) (\w): (\w+)/);
+    return {
+        loc1: parseInt(loc1) - 1,
+        loc2: parseInt(loc2) - 1,
+        key,
+        text,
+    };
 }
 function countValidPasswords(passwords) {
     let counter = 0;
