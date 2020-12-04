@@ -3,13 +3,13 @@ const fs = require("fs");
 // modifying input data to the right format
 const database = readFileLines("./input.txt")
     .map((line) => line.split(/-| /))
-    .map((array) => array.map((str) => str.replace(":", "")))
-    .map((array) => {
-        let newArray = [...array];
-        newArray[0] = parseInt(newArray[0]);
-        newArray[1] = parseInt(newArray[1]);
-        return newArray;
-    });
+    .map((password) => password.flatMap((str) => str.replace(":", "")))
+    .map((array) => ({
+        loc1: parseInt(array[0]) - 1,
+        loc2: parseInt(array[1]) - 1,
+        key: array[2],
+        text: array[3],
+    }));
 
 console.log(countValidPasswords(database));
 
@@ -18,16 +18,13 @@ function readFileLines(path) {
 }
 function countValidPasswords(passwords) {
     let globalCounter = 0;
-    passwords.map((password) => {
+
+    passwords.forEach((password) => {
         globalCounter = globalCounter + checkPassword(password);
     });
     return globalCounter;
 }
-function checkPassword(password) {
-    let loc1 = password[0] - 1;
-    let loc2 = password[1] - 1;
-    let key = password[2];
-    let text = password[3];
+function checkPassword({ loc1, loc2, key, text }) {
     let counter = 0;
 
     if (
