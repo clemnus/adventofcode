@@ -13,7 +13,17 @@ const database = input3.map((array) => {
     return newArray;
 });
 
-let checkPassword = ([...password]) => {
+console.log(runAllPasswords(database));
+
+function runAllPasswords([...input]) {
+    let globalCounter = 0;
+
+    input.map((pass) => {
+        globalCounter = globalCounter + checkPassword(pass);
+    });
+    return globalCounter;
+}
+function checkPassword([...password]) {
     let loc1 = password[0] - 1;
     let loc2 = password[1] - 1;
     let key = password[2];
@@ -27,15 +37,4 @@ let checkPassword = ([...password]) => {
         counter = counter + 1;
     }
     return counter;
-};
-
-let runAllPasswords = ([...input]) => {
-    let globalCounter = 0;
-
-    input.map((pass) => {
-        globalCounter = globalCounter + checkPassword(pass);
-    });
-    return globalCounter;
-};
-
-console.log(runAllPasswords(database));
+}
