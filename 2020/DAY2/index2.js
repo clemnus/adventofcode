@@ -1,8 +1,11 @@
 const fs = require("fs");
 
-const passwords = readFileLines("./input.txt").map(parsePassword);
+const passwords = readPasswords("./input.txt");
 console.log(countValidPasswords(passwords));
 
+function readPasswords(path) {
+    return readFileLines(path).map(parsePassword);
+}
 function readFileLines(path) {
     return fs.readFileSync(path, { encoding: "UTF-8" }).split("\n");
 }
