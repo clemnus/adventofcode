@@ -17,12 +17,11 @@ function readFileLines(path) {
     return fs.readFileSync(path, { encoding: "UTF-8" }).split("\n");
 }
 function countValidPasswords(passwords) {
-    let globalCounter = 0;
-
+    let counter = 0;
     passwords.forEach((password) => {
-        if (isValid(password)) globalCounter++;
+        if (isValid(password)) counter++;
     });
-    return globalCounter;
+    return counter;
 }
 function isValid({ loc1, loc2, key, text }) {
     return (
