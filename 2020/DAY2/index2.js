@@ -20,18 +20,13 @@ function countValidPasswords(passwords) {
     let globalCounter = 0;
 
     passwords.forEach((password) => {
-        globalCounter = globalCounter + checkPassword(password);
+        if (isValid(password)) globalCounter++;
     });
     return globalCounter;
 }
-function checkPassword({ loc1, loc2, key, text }) {
-    let counter = 0;
-
-    if (
+function isValid({ loc1, loc2, key, text }) {
+    return (
         (text[loc1] === key && text[loc2] !== key) ||
         (text[loc2] === key && text[loc1] !== key)
-    ) {
-        counter = counter + 1;
-    }
-    return counter;
+    );
 }
