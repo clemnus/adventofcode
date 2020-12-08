@@ -330,7 +330,7 @@ move = (input, addX, addY) => {
     let y = 0;
     let counter = 0;
 
-    while(y <= 322) {
+    while(y < input.length) {
         if (x>30) {x = x - 31;};
         // console.log(x,y);
         if(input[y][x] === "#") {counter = counter + 1};
