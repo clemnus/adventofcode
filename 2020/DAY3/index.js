@@ -329,9 +329,11 @@ move = (input, addX, addY) => {
     let x = 0;
     let y = 0;
     let counter = 0;
+    let slopeHeight = input.length;
+    let slopeWidth = input[0].length;
 
-    while(y < input.length) {
-        if (x>30) {x = x - 31;};
+    while(y < slopeHeight) {
+        if (x>=slopeWidth) {x = x - slopeWidth;};
         // console.log(x,y);
         if(input[y][x] === "#") {counter = counter + 1};
         // console.log(input[y][x]);
@@ -342,13 +344,6 @@ move = (input, addX, addY) => {
     return counter;
 
 }
-
-// input[y][x],y,x
-// row,0,0  row,0,4
-// row,1,4 = # ?
-// row,1,4  row,1,8
-// row,2,8 = #
-// ...  
 
 console.log(move(input,3,1)* move(input,1,1)*move(input,5,1)*move(input,7,1)*move(input,1,2));
 
