@@ -29,7 +29,7 @@ const alphabet = [
 
 // const input = ["a", "b", "c"];
 
-checkGroupAnswer = (array) => {
+checkOneGroup = (array) => {
   let counter = 0;
 
   alphabet.forEach((letter) => {
@@ -41,19 +41,8 @@ checkGroupAnswer = (array) => {
   return counter;
 };
 
-// const fs = require("fs");
-// const input = fs.readFileSync("./input.txt", { encoding: "UTF-8" }).split("\n");
-
-const input = [
-  "rahgpijvyfd",
-  "biwvrajyp",
-  "ajbrvopeiyw",
-  "",
-  "cv",
-  "v",
-  "qwvo",
-  "v",
-];
+const fs = require("fs");
+let input = fs.readFileSync("./input.txt", { encoding: "UTF-8" }).split("\n");
 
 let newInput = [];
 let answer = "";
@@ -62,8 +51,17 @@ input.forEach((e) => {
   if (e.length !== 0) {
     answer = answer + e;
   } else {
-    answer = answer + "#";
+    newInput.push(answer);
+    answer = "";
   }
 });
 
-console.log(answer);
+let array = [];
+let globalCounter = 0;
+
+newInput.forEach((group) => {
+  array = [...group];
+  globalCounter = globalCounter + checkOneGroup(array);
+});
+
+console.log(globalCounter);
